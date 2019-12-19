@@ -53,6 +53,7 @@
                             <a class="dropdown-item" href="login_view.php">Login</a>
                             <a class="dropdown-item" href="sign_view.php">Sign In</a>
                             <?php }else {?>
+                            <a class="dropdown-item" href="settingacount_view.php">Setting</a>
                             <a class="dropdown-item" href="logout.php">Logout</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="redirectcatering.php">Login as Catering</a>                        

@@ -32,7 +32,7 @@ $idUser = $_SESSION["IDLOGIN"];
                 <div class="card-body">
                     <form method="POST" action="createcat.php">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="idUser" value="<?=$idUser?>" readonly>
+                            <input type="hidden" class="form-control" name="idUser" value="<?=$idUser?>" readonly>
                             <div class="valid-feedback">
                                 Looks good!
                             </div>

@@ -37,7 +37,7 @@ if($_POST['passwordfirst'] != $_POST['passwordfinal']){
     ?>
     <script language="javascript">
         alert("akun berhasil ditambahkan!");
-        document.location="login.html";
+        document.location="login_view.php";
     </script>
     <?php
 }

@@ -1,3 +1,14 @@
+<?php
+session_start();
+require "connectdb.php";
+$IDLOGIN = $_SESSION['IDLOGIN'];
+
+$sqlselect = "SELECT * FROM user where kd_User = '$IDLOGIN'";
+$resultselect = mysqli_query($connnectdb, $sqlselect);
+$rowselect = mysqli_fetch_array($resultselect);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,11 +33,11 @@
     <div class="container mt-5 pt-5">
         <section class="row justify-content-center">
             <div class="card col-md-7 shadow-lg bg-light rounded">
-                <h3 class="card-header">SignUp</h3>
+                <h3 class="card-header">Edit User</h3>
                 <div class="card-body">
-                    <form method="POST" action="signupold.php">
+                    <form method="POST" action="settingacount.php">
                         <div class="form-group">
-                            <input type="hidden" class="form-control" name="user_id" value="<?=$newcode?>" required>
+                            <input type="hidden" class="form-control" name="user_id" value="<?=$IDLOGIN?>" readonly>
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
@@ -36,7 +47,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" placeholder="Name" value="" required>
+                            <input type="text" class="form-control" name="username" placeholder="Name" value="<?=$rowselect['user_Name']?>" required>
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
@@ -45,25 +56,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="passwordfirst" placeholder="Password" value="" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                The box box filled !
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="passwordfinal" placeholder="Re-type Password" value="" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                The box box filled !
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" name="useremail" placeholder="email" value="" required>
+                            <input type="email" class="form-control" name="useremail" placeholder="email" value="<?= $rowselect['user_Email']?>" required>
                             <div class="valid-feedback">
                                 Looks good!
                             </div>

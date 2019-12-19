@@ -31,7 +31,7 @@ if($row['user_Name'] == $username && $row['user_Password'] == $password) {
     ?>
 		<script language="Javascript">
 			alert('login anda Gagal, Silahkan Login Ulang'); //muncul alert box ketika Login telah Sukses
-			document.location = 'Login.html';
+			document.location = 'login_view.php';
 		</script>
 		<?php
 }
