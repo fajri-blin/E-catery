@@ -79,7 +79,7 @@
         </nav>
 
     <?php 
-    $sqlfood = "SELECT * FROM food WHERE kd_Catering = '$IDLOGINCAT'";
+    $sqlfood = "SELECT food.kd_Food, food.food_Name, food.food_Description, food.food_Image, food.food_Price, catering.catering_Name from food INNER JOIN catering ON catering.kd_Catering = food.kd_Catering WHERE catering.kd_Catering = '$IDLOGINCAT'";
     $resultfood = mysqli_query($connnectdb, $sqlfood);
     while($rowfood = mysqli_fetch_array($resultfood)){ ?>
     <div class="container">
@@ -87,6 +87,7 @@
             <img src="<?= $rowfood['food_Image']?>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><?=$rowfood['food_Name']?></h5>
+                <p class="card-text"><?=$rowfood['catering_Name']?> </p>
                 <p class="card-text"><?=$rowfood['food_Description']?> </p>
                 <p class="card-text">Rp.<?=$rowfood['food_Price']?> </p>
                 <a href="editFood_view.php?id=<?= $rowfood['kd_Food']?>" class="btn btn-primary btn-block">Edit</a>
