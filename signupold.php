@@ -7,7 +7,7 @@ if($_POST['passwordfirst'] != $_POST['passwordfinal']){
     ?>
     <script language="javascript">
         alert("Password tidak cocok");
-        document.location="signunold.php";
+        document.location="sign_view.php";
     </script>
     <?php
 } else{
