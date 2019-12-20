@@ -29,60 +29,66 @@
 </head>
 
 <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg mb-5">
-            <a class="navbar-brand" href="#">Catery</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg mb-5">
+        <a class="navbar-brand" href="#">Catery</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">ORDER <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">ORDER <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <?php
                             if(!isset($_SESSION["IDLOGIN"])){
                             ?>
-                            <a class="dropdown-item" href="login_view.php">Login</a>
-                            <a class="dropdown-item" href="sign_view.php">Sign In</a>
-                            <?php }else {?>
-                            <a class="dropdown-item" href="settingacount_view.php">Setting</a>
-                            <a class="dropdown-item" href="logout.php">Logout</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="redirectcatering.php">Login as Catering</a>                        
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <?php
+                        <a class="dropdown-item" href="login_view.php">Login</a>
+                        <a class="dropdown-item" href="sign_view.php">Sign In</a>
+                        <?php }else {?>
+                        <a class="dropdown-item" href="settingacount_view.php">Setting</a>
+                        <a class="dropdown-item" href="logout.php">Logout</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="redirectcatering.php">Login as Catering</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <?php
                             $IDLOGIN = $_SESSION["IDLOGIN"];
 
                             $welcome = "SELECT user_Name FROM user where kd_User = '$IDLOGIN'";
                             $result = mysqli_query($connnectdb, $welcome);
                             $row = mysqli_fetch_array($result);
                         ?>
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Welcome <?= $row['user_Name'];?></a>
-                    </li>
-                    <?php }?>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Welcome
+                        <?= $row['user_Name'];?></a>
+                </li>
+                <?php }?>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="GET" action="mainpage.php">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Search">
+            </form>
+        </div>
+    </nav>
+<?php 
+    if(!isset($_GET['search'])){
 
-    <?php 
-    $sqlfood = "SELECT food.kd_Food, food.food_Name, food.food_Description, food.food_Image, food.food_Price, catering.catering_Name from food INNER JOIN catering ON catering.kd_Catering = food.kd_Catering";
-    $resultfood = mysqli_query($connnectdb, $sqlfood);
-    while($rowfood = mysqli_fetch_array($resultfood)){ ?>
-    <div class="container">
+        $sqlfood = mysqli_query($connnectdb,"SELECT food.kd_Food, food.food_Name, food.food_Description, food.food_Image, food.food_Price, catering.catering_Name from food INNER JOIN catering ON catering.kd_Catering = food.kd_Catering");
+    }else{
+        $search = $_GET['search'];
+        $sqlfood = mysqli_query($connnectdb,"SELECT food.kd_Food, food.food_Name, food.food_Description, food.food_Image, food.food_Price, catering.catering_Name from food INNER JOIN catering ON catering.kd_Catering = food.kd_Catering WHERE food.food_Name LIKE '%".$search."%'");
+    }
+    while($rowfood = mysqli_fetch_array($sqlfood)){
+        ?>
+     <div class="container">
         <div class="card" style="width: 18rem;">
             <img src="<?= $rowfood['food_Image']?>" class="card-img-top" alt="...">
             <div class="card-body">
@@ -90,11 +96,14 @@
                 <p class="card-text"><?=$rowfood['catering_Name']?> </p>
                 <p class="card-text"><?=$rowfood['food_Description']?> </p>
                 <p class="card-text">Rp.<?=$rowfood['food_Price']?> </p>
-                <a href="#" class="btn btn-primary btn-block">Order</a>
+                <a href="editFood_view.php?id=<?= $rowfood['kd_Food']?>" class="btn btn-primary btn-block">Edit</a>
             </div>
         </div>    
-    </div>
-    <?php } ?>
+    </div>       
+        <?php
+    }
+?>
+
 </body>
 
 </html>
