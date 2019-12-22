@@ -77,6 +77,7 @@
             </form>
         </div>
     </nav>
+
     <?php 
     if(!isset($_GET['search'])){
 
@@ -85,25 +86,37 @@
         $search = $_GET['search'];
         $sqlfood = mysqli_query($connnectdb,"SELECT food.kd_Food, food.food_Name, food.food_Description, food.food_Image, food.food_Price, catering.catering_Name from food INNER JOIN catering ON catering.kd_Catering = food.kd_Catering WHERE food.food_Name LIKE '%".$search."%'");
     }
-    while($rowfood = mysqli_fetch_array($sqlfood)){
-        ?>
+    ?>
+    <?php 
+     $date = date("Y-m-d");
+     $day = date("l"); 
+     $no = 0;
+    ?>
     <div class="container">
-        <div class="card" style="width: 18rem;">
-            <img src="<?= $rowfood['food_Image']?>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <form action="checkout_view.php?id=<?= $rowfood['kd_Food']?>" method="get">
-                    <h5 class="card-title"><?=$rowfood['food_Name']?></h5>
-                    <p class="card-text"><?=$rowfood['catering_Name']?> </p>
-                    <p class="card-text"><?=$rowfood['food_Description']?> </p>
-                    <p class="card-text">Rp.<?=$rowfood['food_Price']?> </p>
-                    <input type="submit" class="btn btn-primary btn-block" value="Edit">
-                </form>
-            </div>
-        </div>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+            <?php     while($rowfood = mysqli_fetch_array($sqlfood)){
+ ?>
+                <tr>
+                    <th scope="row"><?=$no++?></th>
+                    <td></td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
-    <?php
-    }
-?>
+ 
 
 </body>
 
